@@ -14,3 +14,19 @@ function distill {
   | head -n 1
 }
 
+
+PREFIX="${0##*/}:  "
+function output() {
+  printf '%s\n' "${PREFIX}${1}"
+}
+
+
+function error() {
+  output "ERROR:  ${1}" >&2
+}
+
+
+function fail() {
+  error "${1}"
+  exit "${2:-1}"
+}
