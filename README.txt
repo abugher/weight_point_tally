@@ -6,15 +6,15 @@ Files:
   tally.sh
     Run this.  First, "be" in this directory (make it your CWD), then
     run ./tally.sh .  When you eat, tell it what you're eating, and how
-    many.  It will save records of food in foods/ and records of point
-    tallies in days/ .  If you name a new food, you will be asked for
-    some information from the label.
+    many.  It will save records of food in state/foods/ and records of
+    point tallies in state/days/ .  If you name a new food, you will be
+    asked for some information from the label.
 
-  days/
+  state/days/
     Each file in here is a point tally.  The program assumes you want to
     run one tally per day.
 
-  foods/
+  state/foods/
     Each file in here is a record of the point value of one type of
     food.
 
