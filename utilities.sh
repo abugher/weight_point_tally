@@ -6,8 +6,6 @@
 # Version 2, as published by Sam Hocevar. See WTFPL.txt or
 # http://www.wtfpl.net/ for more details.
 
-e="echo -en"
-
 function distill {
   echo "${*}" \
   | grep -vE "[^0-9\.]" \
@@ -17,7 +15,8 @@ function distill {
 
 PREFIX="${0##*/}:  "
 function output() {
-  printf '%s\n' "${PREFIX}${1}"
+  #printf '%s\n' "${PREFIX}${1}"
+  echo -en "${PREFIX}${1}"
 }
 
 

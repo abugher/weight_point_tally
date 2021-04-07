@@ -13,11 +13,11 @@ function new_food
 {
   FOOD="${1}"
   # Get details from the user.
-  $e "              Calories per serving:  "
+  output "              Calories per serving:  "
   read CALORIES
-  $e "          Grams of fat per serving:  "
+  output "          Grams of fat per serving:  "
   read FAT
-  $e "Grams of dietary fiber per serving:  "
+  output "Grams of dietary fiber per serving:  "
   read FIBER
 
   # Check validity of input.
@@ -26,22 +26,22 @@ function new_food
     eval $VAR=$(distill "${!VAR}")
     if [ "${!VAR}" == "" ]
     then
-      $e "Error:  Invalid number for ${VAR}.\n"
+      output "Error:  Invalid number for ${VAR}.\n"
       exit 1
     fi
   done
 
   # Output our inputs for some reason ...
-  # $e "    Food:  ${FOOD}\n"
-  # $e "Calories:  ${CALORIES}\n"
-  # $e "     Fat:  ${FAT}\n"
-  # $e "   Fiber:  ${FIBER}\n"
+  # output "    Food:  ${FOOD}\n"
+  # output "Calories:  ${CALORIES}\n"
+  # output "     Fat:  ${FAT}\n"
+  # output "   Fiber:  ${FIBER}\n"
 
   # The heavy lifting.
   POINTS=$(serving_points "${FOOD}" "${CALORIES}" "${FAT}" "${FIBER}")
 
-  $e "\n"
-  $e "                            Points:  ${POINTS}\n"
+  output "\n"
+  output "                            Points:  ${POINTS}\n"
 
   # Save the points per serving for this food.
   echo "${POINTS}" > state/foods/"${FOOD}"

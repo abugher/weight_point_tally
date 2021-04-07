@@ -16,14 +16,14 @@ TAB="state/days/${DATE}"
 
 if [ -f "${TAB}" ]
 then
-  $e "You have a tab for ${DATE}.  [c]ontinue or [o]verwrite? [C,o]  "
+  output "You have a tab for ${DATE}.  [c]ontinue or [o]verwrite? [C,o]  "
   read REPLY
   if echo "${REPLY}" | grep -i "^o"
   then
-    $e "Overwriting your old tab.\n"
+    output "Overwriting your old tab.\n"
     echo "" > "${TAB}"
   else
-    $e "Continuing your old tab.\n"
+    output "Continuing your old tab.\n"
     # Stripped version of the user-facing loop.
     while read FOOD
     do
@@ -35,7 +35,7 @@ then
         eval $VAR=$(distill "${!VAR}")
         if [ "${!VAR}" == "" ]
         then
-          $e "Error:  Invalid number for ${VAR}.\n"
+          output "Error:  Invalid number for ${VAR}.\n"
           continue
         fi
       done
@@ -47,7 +47,7 @@ then
       fi
 
       # Get points per serving.
-      POINTS_PER_SERVING=$(cat state/foods/"${FOOD}")
+      POINTS_PER_SERVING="$(distill "$(cat state/foods/"${FOOD}")")"
 
       # Do the math.
       POINTS=$(
@@ -55,8 +55,8 @@ then
         | bc
       )
 
-      $e "${FOOD}:\n"
-      $e "  ${POINTS_PER_SERVING} x ${SERVINGS} = ${POINTS}\n"
+      output "${FOOD}:\n"
+      output "  ${POINTS_PER_SERVING} x ${SERVINGS} = ${POINTS}\n"
 
       TALLY=$(
         echo "scale=3; ${TALLY} + ${POINTS}" \
@@ -64,22 +64,22 @@ then
       )
 
       # Summary output.
-      $e "  Tally:  ${TALLY}\n"
+      output "  Tally:  ${TALLY}\n"
     done \
       < "${TAB}"
     # Reset FOOD so the main loop triggers.
     FOOD="x"
-    $e "\n"
+    output "\n"
   fi
 fi
 
 
 # Condition is redundant to break line, but it's here for reference.
-$e "Hit enter at the food prompt to finish.\n"
+output "Hit enter at the food prompt to finish.\n"
 while [ "${FOOD}" != "" ]
 do
   # Get details from the user.
-  $e "    Food:  "
+  output "    Food:  "
   read FOOD
 
   # Check for break condition.
@@ -91,19 +91,19 @@ do
   # Check for new food.
   if [ ! -f state/foods/"${FOOD}" ]
   then
-    $e "Unknown food.  Please define.\n\n"
+    output "Unknown food.  Please define.\n\n"
     new_food "${FOOD}"
-    $e "\n"
+    output "\n"
   fi
 
-  $e "Servings:  "
+  output "Servings:  "
   read SERVINGS
 
   # Check validity of input.
   eval SERVINGS=$(distill "${SERVINGS}")
   if [ "${SERVINGS}" == "" ]
   then
-    $e "Error:  Invalid number for SERVINGS.\n"
+    output "Error:  Invalid number for SERVINGS.\n"
     continue
   fi
 
@@ -122,9 +122,9 @@ do
   )
 
   # Output.
-  $e "  Points:  ${POINTS}\n"
-  $e "   Tally:  ${TALLY}\n"
-  $e "\n"
+  output "  Points:  ${POINTS}\n"
+  output "   Tally:  ${TALLY}\n"
+  output "\n"
 
   # Log food and servings.
   echo "${FOOD}" >> "${TAB}"
@@ -132,4 +132,4 @@ do
 done
 
 # Print the final tally before exiting.
-$e "   Tally:  ${TALLY}\n"
+output "   Tally:  ${TALLY}\n"
