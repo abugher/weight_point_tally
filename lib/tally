@@ -1,7 +1,17 @@
 #!/bin/bash
 
+# This program is free software. It comes without any warranty, to the
+# extent permitted by applicable law. You can redistribute it and/or modify
+# it under the terms of the Do What The Fuck You Want To Public License,
+# Version 2, as published by Sam Hocevar. See WTFPL.txt or
+# http://www.wtfpl.net/ for more details.
 
+
+# In interactive mode, prompt the user and write to the tab.
+# 
+# In noninteractive mode, read the tab and report the current tally.
 function tally() {
+  TALLY="${TALLY:-0}"
   if interactive; then
     output "Hit enter at the food prompt to finish.\n"
   fi
@@ -56,16 +66,16 @@ function tally() {
       | bc
     )
 
-    # Output.
     if interactive; then
+      # Output.
       output "  Points:  ${POINTS}\n"
       output "   Tally:  ${TALLY}\n"
       output "\n"
+      # Log.
+      echo "${FOOD}" >> "${TAB}"
+      echo "${SERVINGS}" >> "${TAB}"
     fi
 
-    # Log food and servings.
-    echo "${FOOD}" >> "${TAB}"
-    echo "${SERVINGS}" >> "${TAB}"
   done
   
   if interactive; then

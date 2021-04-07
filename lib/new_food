@@ -6,8 +6,6 @@
 # Version 2, as published by Sam Hocevar. See WTFPL.txt or
 # http://www.wtfpl.net/ for more details.
 
-source utilities.sh
-source function_serving_points.sh
 
 function new_food
 {

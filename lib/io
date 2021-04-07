@@ -6,6 +6,7 @@
 # Version 2, as published by Sam Hocevar. See WTFPL.txt or
 # http://www.wtfpl.net/ for more details.
 
+
 function distill {
   echo "${*}" \
   | grep -vE "[^0-9\.]" \
@@ -13,7 +14,6 @@ function distill {
 }
 
 
-PREFIX="${0##*/}:  "
 function output() {
   #printf '%s\n' "${PREFIX}${1}"
   echo -en "${PREFIX}${1}"
@@ -25,7 +25,23 @@ function error() {
 }
 
 
+function debug() {
+  if test 'set' = "${debug:+set}"; then
+    output "DEBUG:  ${1}" >&2
+  fi
+}
+
+
 function fail() {
   error "${1}"
   exit "${2:-1}"
+}
+
+
+function interactive() {
+  if test 'set' = "${NONINTERACTIVE:+set}"; then
+    false
+  else
+    true
+  fi
 }
