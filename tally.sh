@@ -21,7 +21,7 @@ then
   if echo "${REPLY}" | grep -i "^o"
   then
     output "Overwriting your old tab.\n"
-    echo "" > "${TAB}"
+    > "${TAB}"
   else
     output "Continuing your old tab.\n"
     # Stripped version of the user-facing loop.
