@@ -8,15 +8,19 @@
 
 
 function distill {
-  echo "${*}" \
-  | grep -vE "[^0-9\.]" \
-  | head -n 1
+  grep -vE "[^0-9\.]" \
+    <<< "${*}" \
+    | head -n 1
 }
 
 
 function output() {
-  #printf '%s\n' "${PREFIX}${1}"
-  echo -en "${PREFIX}${1}"
+  printf '%s\n' "${PREFIX}${1}"
+}
+
+
+function prompt() {
+  printf '%s' "${PREFIX}${1}"
 }
 
 

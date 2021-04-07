@@ -13,11 +13,11 @@
 function tally() {
   TALLY="${TALLY:-0}"
   if interactive; then
-    output "Hit enter at the food prompt to finish.\n"
+    output "Hit enter at the food prompt to finish."
   fi
   while 
     if interactive; then 
-      output "    Food:  "
+      prompt "    Food:  "
     fi
     read FOOD
   do
@@ -31,16 +31,17 @@ function tally() {
     if [ ! -f state/foods/"${FOOD}" ]
     then
       if interactive; then
-        output "Unknown food.  Please define.\n\n"
+        output "Unknown food.  Please define."
+        output
         new_food "${FOOD}"
-        output "\n"
+        output
       else
         fail "Unknown food:  ${FOOD}"
       fi
     fi
 
     if interactive; then
-      output "Servings:  "
+      prompt "Servings:  "
     fi
     read SERVINGS
 
@@ -57,29 +58,27 @@ function tally() {
 
     # Do the math.
     POINTS=$(
-      echo "scale=3; ${POINTS_PER_SERVING} * ${SERVINGS}" \
-      | bc
+      bc <<< "scale=3; ${POINTS_PER_SERVING} * ${SERVINGS}"
     )
 
     TALLY=$(
-      echo "scale=3; ${TALLY} + ${POINTS}" \
-      | bc
+      bc <<< "scale=3; ${TALLY} + ${POINTS}"
     )
 
     if interactive; then
       # Output.
-      output "  Points:  ${POINTS}\n"
-      output "   Tally:  ${TALLY}\n"
-      output "\n"
+      output "  Points:  ${POINTS}"
+      output "   Tally:  ${TALLY}"
+      output
       # Log.
-      echo "${FOOD}" >> "${TAB}"
-      echo "${SERVINGS}" >> "${TAB}"
+      printf '%s\n' "${FOOD}" >> "${TAB}"
+      printf '%s\n' "${SERVINGS}" >> "${TAB}"
     fi
 
   done
   
   if interactive; then
-    output "   Tally:  ${TALLY}\n"
+    output "   Tally:  ${TALLY}"
   else
     printf "%s\n" "${TALLY}"
   fi
