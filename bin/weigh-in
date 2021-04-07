@@ -6,9 +6,18 @@
 # Version 2, as published by Sam Hocevar. See WTFPL.txt or
 # http://www.wtfpl.net/ for more details.
 
-script_name="${0##*/}"
-PREFIX="${script_name}:  "
-DATE="$(date "+%Y%m%d")"
-state="${main_dir}/state"
-TAB="${state}/days/${DATE}"
-weigh_in="${state}/weights/${DATE}"
+main_dir="$(readlink -f "${0%/*}/..")" \
+  || fail "Failed to get absolute path of main directory."
+lib_dir="${main_dir}/lib"
+
+libs=(
+  "config"
+  "io"
+  "weigh_in"
+)
+
+for lib in "${libs[@]}"; do
+  source "${lib_dir}/${lib}"
+done
+
+weigh_in

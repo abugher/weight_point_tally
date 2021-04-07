@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# This program is free software. It comes without any warranty, to the
+# extent permitted by applicable law. You can redistribute it and/or modify
+# it under the terms of the Do What The Fuck You Want To Public License,
+# Version 2, as published by Sam Hocevar. See WTFPL.txt or
+# http://www.wtfpl.net/ for more details.
+
+
+function weigh_in() {
+  if test -e "${weigh_in}"; then
+    read WEIGHT < "${weigh_in}"
+    WEIGHT="$(distill "${WEIGHT}")"
+    output "Today's weight:  ${WEIGHT}"
+    prompt "[o]verwrite, [c]ontinue, or [a]bort?  [o,c,A]  "
+    read response
+    if grep -qi 'c' <<< "${response}"; then
+      return 0
+    elif ! grep -qi 'o' <<< "${response}"; then
+      return 1
+    fi
+  fi
+  prompt "Weight (lbs):  "
+  read WEIGHT
+  printf '%s\n' "${WEIGHT}" > "${weigh_in}"
+}
