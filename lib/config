@@ -9,6 +9,9 @@
 script_name="${0##*/}"
 PREFIX="${script_name}:  "
 DATE="$(date "+%Y%m%d")"
+if test 6 -gt "$(date '+%H')"; then
+  DATE="$(( DATE - 1 ))"
+fi
 state="${main_dir}/state"
 TAB="${state}/days/${DATE}"
 weigh_in="${state}/weights/${DATE}"
