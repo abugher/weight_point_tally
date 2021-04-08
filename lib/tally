@@ -28,7 +28,7 @@ function tally() {
     fi
 
     # Check for new food.
-    if [ ! -f state/foods/"${FOOD}" ]
+    if [ ! -f "${foods}"/"${FOOD}" ]
     then
       if interactive; then
         output "Unknown food.  Please define."
@@ -54,7 +54,7 @@ function tally() {
     fi
 
     # Get points per serving.
-    POINTS_PER_SERVING=$(cat state/foods/"${FOOD}")
+    POINTS_PER_SERVING=$(cat "${foods}"/"${FOOD}")
 
     # Do the math.
     POINTS=$(
