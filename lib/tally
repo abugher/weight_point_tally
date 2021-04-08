@@ -40,7 +40,11 @@ function tally() {
       fi
     fi
 
+    # Get points per serving.
+    POINTS_PER_SERVING=$(cat "${foods}"/"${FOOD}") \
+      || fail "Failed to get points per serving."
     if interactive; then
+      output "Points per serving:" "${POINTS_PER_SERVING}"
       prompt "Servings:"
     fi
     read SERVINGS
@@ -52,9 +56,6 @@ function tally() {
     then
       fail "Invalid number of servings of ${FOOD}.  (${ORIGINAL_SERVINGS})"
     fi
-
-    # Get points per serving.
-    POINTS_PER_SERVING=$(cat "${foods}"/"${FOOD}")
 
     # Do the math.
     POINTS=$(
