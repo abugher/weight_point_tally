@@ -7,20 +7,22 @@
 # http://www.wtfpl.net/ for more details.
 
 
-function distill {
-  grep -vE "[^0-9\.]" \
+function distill() {
+  sed 's/[^0-9\.]//g' \
     <<< "${*}" \
     | head -n 1
 }
 
 
 function output() {
-  printf '%s\n' "${PREFIX}${1}"
+  prompt "${1}"
+  shift 1
+  printf '%s\n' "${*}"
 }
 
 
 function prompt() {
-  printf '%s' "${PREFIX}${1}"
+  printf '%s  %48s' "${PREFIX}" "${1}  "
 }
 
 

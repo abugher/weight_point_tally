@@ -11,11 +11,11 @@ function new_food
 {
   FOOD="${1}"
   # Get details from the user.
-  prompt "              Calories per serving:  "
+  prompt "Calories per serving:"
   read CALORIES
-  prompt "          Grams of fat per serving:  "
+  prompt "Grams of fat per serving:"
   read FAT
-  prompt "Grams of dietary fiber per serving:  "
+  prompt "Grams of dietary fiber per serving:"
   read FIBER
 
   # Check validity of input.
@@ -31,8 +31,8 @@ function new_food
   # The heavy lifting.
   POINTS=$(serving_points "${FOOD}" "${CALORIES}" "${FAT}" "${FIBER}")
 
-  output ""
-  output "                            Points:  ${POINTS}"
+  output
+  output "Points:" "${POINTS}"
 
   # Save the points per serving for this food.
   printf "%s\n" "${POINTS}" > state/foods/"${FOOD}"

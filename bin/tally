@@ -18,16 +18,32 @@ libs=(
   "tally"
   "new_food"
   "serving_points"
+  "weigh_in"
 )
 
 for lib in "${libs[@]}"; do
   source "${lib_dir}/${lib}"
 done
 
+
+if test -e "${weigh_in}"; then
+  read WEIGHT < "${weigh_in}"
+  WEIGHT="$(distill "${WEIGHT}")"
+  output "Today's weight:" "${WEIGHT}"
+else
+  output 'Weight not recorded for today.'
+  prompt "Weigh in?  [y,N]"
+  read response
+  if grep -qi 'y' <<< "${response}"; then
+    weigh_in
+  fi
+fi
+
 TALLY=0
 if [ -f "${TAB}" ]
 then
-  prompt "You have a tab for ${DATE}.  [c]ontinue or [o]verwrite? [C,o]  "
+  output "You have a tab for ${DATE}."
+  prompt "[c]ontinue or [o]verwrite? [C,o]"
   read REPLY
   if grep -qi "^o" <<< "${REPLY}"; then
     output "Overwriting your old tab."
@@ -40,5 +56,5 @@ then
   fi
 fi
 
-output "   Tally:  ${TALLY}"
+output "Tally:" "${TALLY}"
 tally

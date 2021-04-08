@@ -10,9 +10,8 @@
 function weigh_in() {
   if test -e "${weigh_in}"; then
     read WEIGHT < "${weigh_in}"
-    WEIGHT="$(distill "${WEIGHT}")"
-    output "Today's weight:  ${WEIGHT}"
-    prompt "[o]verwrite, [c]ontinue, or [a]bort?  [o,c,A]  "
+    output "Today's weight:" "${WEIGHT}"
+    prompt "[o]verwrite, [c]ontinue, or [a]bort?  [o,c,A]"
     read response
     if grep -qi 'c' <<< "${response}"; then
       return 0
@@ -20,7 +19,12 @@ function weigh_in() {
       return 1
     fi
   fi
-  prompt "Weight (lbs):  "
+  prompt "Weight (lbs):"
   read WEIGHT
+  ORIGINAL_WEIGHT="${WEIGHT}"
+  WEIGHT="$(distill "${WEIGHT}")"
+  if ! grep -q . <<< "${WEIGHT}"; then
+    fail "Invalid weight:  ${ORIGINAL_WEIGHT}"
+  fi
   printf '%s\n' "${WEIGHT}" > "${weigh_in}"
 }

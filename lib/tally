@@ -17,7 +17,7 @@ function tally() {
   fi
   while 
     if interactive; then 
-      prompt "    Food:  "
+      prompt "Food:"
     fi
     read FOOD
   do
@@ -41,7 +41,7 @@ function tally() {
     fi
 
     if interactive; then
-      prompt "Servings:  "
+      prompt "Servings:"
     fi
     read SERVINGS
 
@@ -67,8 +67,8 @@ function tally() {
 
     if interactive; then
       # Output.
-      output "  Points:  ${POINTS}"
-      output "   Tally:  ${TALLY}"
+      output "Points:" "${POINTS}"
+      output "Tally:" "${TALLY}"
       output
       # Log.
       printf '%s\n' "${FOOD}" >> "${TAB}"
@@ -78,7 +78,7 @@ function tally() {
   done
   
   if interactive; then
-    output "   Tally:  ${TALLY}"
+    output "Tally:" "${TALLY}"
   else
     printf "%s\n" "${TALLY}"
   fi
