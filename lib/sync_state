@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# This program is free software. It comes without any warranty, to the
+# extent permitted by applicable law. You can redistribute it and/or modify
+# it under the terms of the Do What The Fuck You Want To Public License,
+# Version 2, as published by Sam Hocevar. See WTFPL.txt or
+# http://www.wtfpl.net/ for more details.
+
+
+function sync_state() {
+  if 
+    type g > /dev/null 2>&1 \
+      && test -e "${state}/.git"
+  then
+    cd "${state}" \
+      || fail "Failed to enter state directory to sync files."
+    g 'Logs.' >/dev/null 2>&1 \
+      || fail "Failed to sync files."
+    cd "${OLDPWD}" \
+      || fail "Failed to return to previous directory after state sync."
+  fi
+}

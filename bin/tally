@@ -19,12 +19,14 @@ libs=(
   "new_food"
   "serving_points"
   "weigh_in"
+  "sync_state"
 )
 
 for lib in "${libs[@]}"; do
   source "${lib_dir}/${lib}"
 done
 
+sync_state
 
 if test -e "${weigh_in}"; then
   read WEIGHT < "${weigh_in}"
@@ -58,3 +60,5 @@ fi
 
 output "Tally:" "${TALLY}"
 tally
+
+sync_state
