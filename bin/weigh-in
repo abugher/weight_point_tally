@@ -6,7 +6,9 @@
 # Version 2, as published by Sam Hocevar. See WTFPL.txt or
 # http://www.wtfpl.net/ for more details.
 
-main_dir="$(readlink -f "${0%/*}/..")" \
+real_path="$(readlink -f "${0}")" \
+  || fail "Failed to get real path to executable."
+main_dir="${real_path%/*}/.." \
   || fail "Failed to get absolute path of main directory."
 lib_dir="${main_dir}/lib"
 
