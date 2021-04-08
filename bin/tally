@@ -24,6 +24,7 @@ for lib in "${libs[@]}"; do
   source "${lib_dir}/${lib}"
 done
 
+TALLY=0
 if [ -f "${TAB}" ]
 then
   prompt "You have a tab for ${DATE}.  [c]ontinue or [o]verwrite? [C,o]  "
@@ -33,9 +34,11 @@ then
     > "${TAB}"
   else
     output "Continuing your old tab."
+    unset TALLY
     TALLY="$(NONINTERACTIVE='y' tally < "${TAB}")"
     output
   fi
 fi
 
+output "   Tally:  ${TALLY}"
 tally
