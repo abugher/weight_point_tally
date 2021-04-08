@@ -53,7 +53,8 @@ then
   else
     output "Continuing your old tab."
     unset TALLY
-    TALLY="$(NONINTERACTIVE='y' tally < "${TAB}")"
+    TALLY="$(NONINTERACTIVE='y' tally < "${TAB}")" \
+      || fail "Failed to tally existing tab."
     output
   fi
 fi
