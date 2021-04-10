@@ -9,31 +9,31 @@
 
 function new_food
 {
-  FOOD="${1}"
+  food="${1}"
   # Get details from the user.
   prompt "Calories per serving:"
-  read CALORIES
+  read calories
   prompt "Grams of fat per serving:"
-  read FAT
+  read fat
   prompt "Grams of dietary fiber per serving:"
-  read FIBER
+  read fiber
 
   # Check validity of input.
-  for VAR in CALORIES FAT FIBER
+  for var in calories fat fiber
   do
-    eval $VAR=$(distill "${!VAR}")
-    if [ "${!VAR}" == "" ]
+    eval $var=$(distill "${!var}")
+    if [ "${!var}" == "" ]
     then
-      fail "Invalid number for ${VAR}."
+      fail "Invalid number for ${var}."
     fi
   done
 
   # The heavy lifting.
-  POINTS=$(serving_points "${FOOD}" "${CALORIES}" "${FAT}" "${FIBER}")
+  points=$(serving_points "${food}" "${calories}" "${fat}" "${fiber}")
 
   output
-  output "Points:" "${POINTS}"
+  output "Points:" "${points}"
 
   # Save the points per serving for this food.
-  printf "%s\n" "${POINTS}" > "${foods}/${FOOD}"
+  printf "%s\n" "${points}" > "${foods}/${food}"
 }

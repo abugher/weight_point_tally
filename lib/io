@@ -22,7 +22,7 @@ function output() {
 
 
 function prompt() {
-  printf '%s  %48s' "${PREFIX}" "${1}  "
+  printf '%s  %48s' "${prefix}" "${1}  "
 }
 
 

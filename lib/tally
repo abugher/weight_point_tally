@@ -11,7 +11,7 @@
 # 
 # In noninteractive mode, read the tab and report the current tally.
 function tally() {
-  TALLY="${TALLY:-0}"
+  tally="${tally:-0}"
   if interactive; then
     output "Hit enter at the food prompt to finish."
   fi
@@ -19,68 +19,68 @@ function tally() {
     if interactive; then 
       prompt "Food:"
     fi
-    read FOOD
+    read food
   do
     # Finish if no food is specified.
-    if [ "${FOOD}" == "" ]
+    if [ "${food}" == "" ]
     then
       break
     fi
 
     # Check for new food.
-    if [ ! -f "${foods}"/"${FOOD}" ]
+    if [ ! -f "${foods}"/"${food}" ]
     then
       if interactive; then
         output "Unknown food.  Please define."
         output
-        new_food "${FOOD}"
+        new_food "${food}"
         output
       else
-        fail "Unknown food:  ${FOOD}"
+        fail "Unknown food:  ${food}"
       fi
     fi
 
     # Get points per serving.
-    POINTS_PER_SERVING=$(cat "${foods}"/"${FOOD}") \
+    points_per_serving=$(cat "${foods}"/"${food}") \
       || fail "Failed to get points per serving."
     if interactive; then
-      output "Points per serving:" "${POINTS_PER_SERVING}"
+      output "Points per serving:" "${points_per_serving}"
       prompt "Servings:"
     fi
-    read SERVINGS
+    read servings
 
     # Check validity of input.
-    ORIGINAL_SERVINGS="${SERVINGS}"
-    eval SERVINGS=$(distill "${SERVINGS}")
-    if [ "${SERVINGS}" == "" ]
+    original_servings="${servings}"
+    eval servings=$(distill "${servings}")
+    if [ "${servings}" == "" ]
     then
-      fail "Invalid number of servings of ${FOOD}.  (${ORIGINAL_SERVINGS})"
+      fail "Invalid number of servings of ${food}.  (${original_servings})"
     fi
 
     # Do the math.
-    POINTS=$(
-      bc <<< "scale=3; ${POINTS_PER_SERVING} * ${SERVINGS}"
+    points=$(
+      bc <<< "scale=3; ${points_per_serving} * ${servings}"
     )
 
-    TALLY=$(
-      bc <<< "scale=3; ${TALLY} + ${POINTS}"
+    tally=$(
+      bc <<< "scale=3; ${tally} + ${points}"
     )
 
     if interactive; then
       # Output.
-      output "Points:" "${POINTS}"
-      output "Tally:" "${TALLY}"
+      output "Points:" "${points}"
+      output "Tally:" "${tally}"
       output
       # Log.
-      printf '%s\n' "${FOOD}" >> "${TAB}"
-      printf '%s\n' "${SERVINGS}" >> "${TAB}"
+      printf '%s\n' "${food}" >> "${log}"
+      printf '%s\n' "${servings}" >> "${log}"
     fi
 
   done
   
   if interactive; then
-    output "Tally:" "${TALLY}"
+    output "Tally:" "${tally}"
   else
-    printf "%s\n" "${TALLY}"
+    printf "%s\n" "${tally}"
   fi
 }

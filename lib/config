@@ -7,12 +7,12 @@
 # http://www.wtfpl.net/ for more details.
 
 script_name="${0##*/}"
-PREFIX="${script_name}:  "
-DATE="$(date "+%Y%m%d")"
+prefix="${script_name}:  "
+date="$(date "+%Y%m%d")"
 if test 6 -gt "$(date '+%H')"; then
-  DATE="$(( DATE - 1 ))"
+  date="$(( date - 1 ))"
 fi
 state="${main_dir}/state"
-TAB="${state}/days/${DATE}"
-weigh_in="${state}/weights/${DATE}"
+log="${state}/days/${date}"
+weigh_in="${state}/weights/${date}"
 foods="${state}/foods"
