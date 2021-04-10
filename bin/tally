@@ -28,18 +28,7 @@ done
 
 sync_state
 
-if test -e "${weigh_in}"; then
-  read weight < "${weigh_in}"
-  weight="$(distill "${weight}")"
-  output "Today's weight:" "${weight}"
-else
-  output 'Weight not recorded for today.'
-  prompt "Weigh in?  [y,N]"
-  read response
-  if grep -qi 'y' <<< "${response}"; then
-    weigh_in
-  fi
-fi
+weigh_in
 
 tally=0
 if [ -f "${log}" ]

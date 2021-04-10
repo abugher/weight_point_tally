@@ -27,13 +27,18 @@ function prompt() {
 
 
 function error() {
-  output "ERROR:  ${1}" >&2
+  PREFIX="ERROR:  ${PREFIX}" output "${@}" >&2
+}
+
+
+function warn() {
+  PREFIX="WARNING:  ${PREFIX}" output "${@}" >&2
 }
 
 
 function debug() {
   if test 'set' = "${debug:+set}"; then
-    output "DEBUG:  ${1}" >&2
+    PREFIX="DEBUG:  ${PREFIX}" output "${@}" >&2
   fi
 }
 

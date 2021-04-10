@@ -8,23 +8,27 @@
 
 
 function weigh_in() {
+  unset weight
   if test -e "${weigh_in}"; then
-    read weight < "${weigh_in}"
-    output "Today's weight:" "${weight}"
-    prompt "[o]verwrite, [c]ontinue, or [a]bort?  [o,c,A]"
+    read weight_raw < "${weigh_in}"
+    weight="$(distill "${weight_raw}")"
+    if grep -q . <<< "${weight}"; then
+      output "Weight:" "${weight}"
+    else
+      warn "Invalid weight:" "${weight_raw}"
+      rm "${weigh_in}" \
+        || fail "Failed to remove corrupt weight file:  ${weigh_in}"
+      weigh_in
+    fi
+  else
+    prompt "Weight (lbs):"
     read response
-    if grep -qi 'c' <<< "${response}"; then
-      return 0
-    elif ! grep -qi 'o' <<< "${response}"; then
-      return 1
+    weight="$(distill "${response}")"
+    if grep -q . <<< "${weight}"; then
+      printf '%s\n' "${weight}" > "${weigh_in}"
+    else
+      warn "Invalid weight:" "${response}"
+      output "Skipping weigh in."
     fi
   fi
-  prompt "Weight (lbs):"
-  read weight
-  original_weight="${weight}"
-  weight="$(distill "${weight}")"
-  if ! grep -q . <<< "${weight}"; then
-    fail "Invalid weight:  ${original_weight}"
-  fi
-  printf '%s\n' "${weight}" > "${weigh_in}"
 }
