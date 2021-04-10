@@ -27,27 +27,12 @@ for lib in "${libs[@]}"; do
 done
 
 sync_state
-
 weigh_in
-
 tally=0
-if [ -f "${log}" ]
-then
-  output "You have a tab for ${date}."
-  prompt "[c]ontinue or [o]verwrite? [C,o]"
-  read reply
-  if grep -qi "^o" <<< "${reply}"; then
-    output "Overwriting your old tab."
-    > "${log}"
-  else
-    output "Continuing your old tab."
-    tally="$(NONINTERACTIVE='y' tally < "${log}")" \
-      || fail "Failed to tally existing tab."
-    output
-  fi
+if [ -f "${log}" ]; then
+  tally="$(NONINTERACTIVE='y' tally < "${log}")" \
+    || fail "Failed to tally existing tab."
 fi
-
 output "Tally:" "${tally}"
 tally
-
 sync_state
