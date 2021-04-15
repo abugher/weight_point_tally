@@ -17,7 +17,6 @@ libs=(
   "io"
   "tally"
   "new_food"
-  "serving_points"
   "weigh_in"
   "sync_state"
 )
