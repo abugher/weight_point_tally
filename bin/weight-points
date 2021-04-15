@@ -33,12 +33,7 @@ sync_state
 case "${name}" in
   tally)
     weigh_in
-    tally=0
-    if [ -f "${log}" ]; then
-      tally="$(NONINTERACTIVE='y' tally < "${log}")" \
-        || fail "Failed to tally existing tab."
-    fi
-    tally
+    tally_then_tally
     ;;
   weigh-in)
     if test -f "${weigh_in}"; then

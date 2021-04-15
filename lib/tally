@@ -7,6 +7,17 @@
 # http://www.wtfpl.net/ for more details.
 
 
+# Tally up the log, then take new input from the user.
+function tally_then_tally() {
+    tally=0
+    if [ -f "${log}" ]; then
+      tally="$(NONINTERACTIVE='y' tally < "${log}")" \
+        || fail "Failed to tally existing tab."
+    fi
+    tally
+}
+
+
 # In interactive mode, prompt the user and write to the tab.
 # 
 # In noninteractive mode, read the tab and report the current tally.
