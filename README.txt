@@ -1,27 +1,33 @@
 Files:
+  bin/
+    Scripts.  Symlink these into your PATH.
 
-  README.txt
-    This file.  Hi!
+    bin/tally
+      The do-everything script.  Checks weight, tallies foods eaten
+      today, takes nutrition information for unknown foods.
 
-  tally.sh
-    Run this.  First, "be" in this directory (make it your CWD), then
-    run ./tally.sh .  When you eat, tell it what you're eating, and how
-    many.  It will save records of food in state/foods/ and records of
-    point tallies in state/days/ .  If you name a new food, you will be
-    asked for some information from the label.
+    bin/food
+      Define or redefine a single food.
+      
+    bin/weigh-in
+      Record or re-record a weight for today.
 
-  state/days/
-    Each file in here is a point tally.  The program assumes you want to
-    run one tally per day.
+  lib/
+    Libraries.  The guts of the scripts in bin/ .
 
-  state/foods/
-    Each file in here is a record of the point value of one type of
-    food.
+  state/
+    This is a separate repository for individual records.
+    
+    state/days/
+      Daily point total (tally).
 
-  function_new_food.sh
-  function_serving_points.sh
-  utilities.sh
-    These files contain code.  They should probably be one file.
+    state/foods/
+      Each file name and content represent, respectively, the name and
+      point value of a food.
+
+    state/weights/
+      Daily weigh in.
+
 
 
 Formulas:
