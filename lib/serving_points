@@ -17,10 +17,11 @@ function serving_points
 
   # min(fiber, 4)
   if [ "$(
-    bc <<< "a=${fiber}; b=4; r=-1; if (a==b) r=0; if (a>b) r=1; r"
+    bc <<< "a=${fiber}; b=4; r=-1; if (a>b) r=1; r"
   )" == "1" ]
   then fiber=4
   fi
+  debug "fiber:  ${fiber}"
 
   # The forumula, except for the min(fiber, 4) part, which is done above.
   points=$(
