@@ -1,0 +1,69 @@
+#!/bin/bash
+
+# This program is free software. It comes without any warranty, to the
+# extent permitted by applicable law. You can redistribute it and/or modify
+# it under the terms of the Do What The Fuck You Want To Public License,
+# Version 2, as published by Sam Hocevar. See WTFPL.txt or
+# http://www.wtfpl.net/ for more details.
+
+real_path="$(readlink -f "${0}")" \
+  || fail "Failed to get real path to executable."
+main_dir="${real_path%/*}/.." \
+  || fail "Failed to get absolute path of main directory."
+lib_dir="${main_dir}/lib"
+name="${0##*/}"
+
+
+libs=(
+  "config"
+  "io"
+  "tally"
+  "food"
+  "weigh_in"
+  "sync_state"
+)
+
+for lib in "${libs[@]}"; do
+  source "${lib_dir}/${lib}"
+done
+
+
+sync_state
+
+case "${name}" in
+  tally)
+    weigh_in
+    tally=0
+    if [ -f "${log}" ]; then
+      tally="$(NONINTERACTIVE='y' tally < "${log}")" \
+        || fail "Failed to tally existing tab."
+    fi
+    tally
+    ;;
+  weigh-in)
+    if test -f "${weigh_in}"; then
+      weight="$(distill "$(< "${weigh_in}")")" \
+        || fail "Failed to read weight."
+      output "Weight:" "${weight}"
+      prompt "Overwrite?  [y,N]"
+      read response
+      if ! grep -qi 'y' <<< "${response}"; then
+        exit 0
+      fi
+      rm "${weigh_in}" \
+        || fail "Failed to remove old weight file."
+    fi
+    weigh_in
+    ;;
+  food)
+    food
+    ;;
+  *)
+    fail "I don't know how to be '${name}'."
+    ;;
+esac
+
+sync_state
+
+
+
