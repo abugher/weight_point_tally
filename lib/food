@@ -7,6 +7,30 @@
 # http://www.wtfpl.net/ for more details.
 
 
+function food() {
+  prompt "Food:"
+  read food
+
+  if test -f "${foods}/${food}"; then
+    points_per_serving="$(distill "$(< "${foods}/${food}")")" \
+      || fail "Failed to get points per serving."
+    output "Points per serving:" "${points_per_serving}"
+    prompt "Overwrite?  [y,N]"
+    read response
+    if grep -qi 'y' <<< "${response}"; then
+      > "${foods}/${food}"
+      new_food "${food}"
+    fi
+  else
+    if interactive; then
+      new_food "${food}"
+    else
+      fail "Unknown food:  ${food}"
+    fi
+  fi
+}
+
+
 function new_food
 {
   food="${1}"

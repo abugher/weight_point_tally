@@ -16,7 +16,7 @@ libs=(
   "config"
   "io"
   "tally"
-  "new_food"
+  "food"
   "weigh_in"
   "sync_state"
 )

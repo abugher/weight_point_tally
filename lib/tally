@@ -76,9 +76,7 @@ function tally() {
 
   done
   
-  if interactive; then
-    output "Tally:" "${tally}"
-  else
+  if ! interactive; then
     printf "%s\n" "${tally}"
   fi
 }

@@ -16,7 +16,7 @@ libs=(
   "config"
   "io"
   "tally"
-  "new_food"
+  "food"
   "weigh_in"
   "sync_state"
 )
@@ -27,25 +27,6 @@ done
 
 sync_state
 
-prompt "Food:"
-read food
-
-if test -f "${foods}/${food}"; then
-  points_per_serving="$(distill "$(< "${foods}/${food}")")" \
-    || fail "Failed to get points per serving."
-  output "Points per serving:" "${points_per_serving}"
-  prompt "Overwrite?  [y,N]"
-  read response
-  if grep -qi 'y' <<< "${response}"; then
-    > "${foods}/${food}"
-    new_food "${food}"
-  fi
-else
-  if interactive; then
-    new_food "${food}"
-  else
-    fail "Unknown food:  ${food}"
-  fi
-fi
+food
 
 sync_state
