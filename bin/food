@@ -49,11 +49,4 @@ else
   fi
 fi
 
-# Get points per serving.
-points_per_serving="$(distill "$(< "${foods}/${food}")")" \
-  || fail "Failed to get points per serving."
-if interactive; then
-  output "Points per serving:" "${points_per_serving}"
-fi
-
 sync_state

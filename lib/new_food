@@ -31,8 +31,7 @@ function new_food
   # The heavy lifting.
   points=$(serving_points "${food}" "${calories}" "${fat}" "${fiber}")
 
-  output
-  output "Points:" "${points}"
+  output "Points per serving:" "${points}"
 
   # Save the points per serving for this food.
   printf "%s\n" "${points}" > "${foods}/${food}"
