@@ -33,6 +33,5 @@ if [ -f "${log}" ]; then
   tally="$(NONINTERACTIVE='y' tally < "${log}")" \
     || fail "Failed to tally existing tab."
 fi
-output "Tally:" "${tally}"
 tally
 sync_state
