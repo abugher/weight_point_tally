@@ -7,6 +7,24 @@
 # http://www.wtfpl.net/ for more details.
 
 
+# Provide the option to overwrite, then weigh in.
+function weigh_in_assertively() {
+  if test -f "${weigh_in}"; then
+    weight="$(distill "$(< "${weigh_in}")")" \
+      || fail "Failed to read weight."
+    output "Weight:" "${weight}"
+    prompt "Overwrite?  [y,N]"
+    read response
+    if ! grep -qi 'y' <<< "${response}"; then
+      exit 0
+    fi
+    rm "${weigh_in}" \
+      || fail "Failed to remove old weight file."
+  fi
+  weigh_in
+}
+
+
 function weigh_in() {
   unset weight
   if test -e "${weigh_in}"; then
