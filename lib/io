@@ -22,7 +22,9 @@ function output() {
 
 
 function prompt() {
-  printf '%s  %48s' "${prefix}" "${1}  "
+  offset="${#prefix}"
+  prompt_length="$(( 60 - offset ))"
+  printf "%s  %${prompt_length}s" "${prefix}" "${1}  "
 }
 
 
@@ -44,8 +46,8 @@ function debug() {
 
 
 function fail() {
-  error "${1}"
-  exit "${2:-1}"
+  error "${@}"
+  exit 1
 }
 
 
