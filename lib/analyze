@@ -16,7 +16,6 @@ function analyze() {
   d=0
   while read day; do
     days["${d}"]="${day}"
-#    output "Day:" "${day}"
     set -o pipefail
     while read food; do
       read servings
@@ -46,15 +45,11 @@ function analyze() {
       points_by_food["${d}"]="$(
         calculate "${points_by_food["${d}"]:-0} + ${points}"
       )" || fail "Failed to calculate points by food."
-#        output "Food:" "${food}"
-#        output "Servings:" "${servings}"
-#        output "Points:" "${points}"
     done < <(
       ( analyze_day < "${state}/days/${day}" ) \
         || printf 'x\nx\nx\n'  # Cheap hack to induce parse failure.
-    ) || fail "Failed to analyze day:" "${day}"
+    )
     set +o pipefail
-#    output
     d="$(( d + 1 ))"
   done < <(ls "${state}/days/" | sort)
   average_points="$(
