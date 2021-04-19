@@ -8,22 +8,40 @@
 
 
 function analyze() {
+	foods=()
+	days=()
+	points_by_day=()
+	points_by_food=()
+	points_total=0
   d=0
   while read day; do
-    d="$(( d + 1 ))"
-    output "Day:" "${day}"
+		days["${d}"]="${day}"
+#    output "Day:" "${day}"
     set -o pipefail
     analyze_day < "${state}/days/${day}" \
       | while read food; do
         read servings
         read points
-        output "Food:" "${food}"
-        output "Servings:" "${servings}"
-        output "Points:" "${points}"
+				points_by_day["${d}"]="$(calculate "${points_by_day["${d}"]} + ${points}")"
+				f=0
+				for compiled_food in "${foods[@]}"; do
+					if test "${compiled_food}" = "${food}"; then
+						break 1
+					fi
+					f="$(( f + 1 ))"
+				done
+				if test "${#foods[@]}" = "${f}"; then
+					foods["${f}"]="${food}"
+				fi
+				points_by_food["${d}"]="$(calculate "${points_by_food["${d}"]} + ${points}")"
+#        output "Food:" "${food}"
+#        output "Servings:" "${servings}"
+#        output "Points:" "${points}"
       done \
       || fail "Failed to analyze day:" "${day}"
     set +o pipefail
-    output
+#    output
+    d="$(( d + 1 ))"
   done < <(ls "${state}/days/" | sort)
 }
 
