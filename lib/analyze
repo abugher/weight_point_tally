@@ -24,6 +24,8 @@ function analyze() {
       )" || fail "Failed to read weight for day:" "${day}"
       weight_start="${weight_start:-${weights_by_day["${d}"]}}"
       weight_end="${weights_by_day["${d}"]}"
+    else
+      warn "Missing weight for day:" "${day}"
     fi
     while read food; do
       read points
@@ -62,6 +64,8 @@ function analyze() {
   output "Average points in total per day:" "${average}"
   weight_diff="$(calculate "${weight_end} - ${weight_start}")"
   output "Total change in weight:" "${weight_diff}"
+  weight_diff_average="$(calculate "${weight_diff} / ${#days[@]}")" # Assumes weight was measured at first recorded day.
+  output "Average change in weight per day:" "${weight_diff_average}"
   output
   output "Average points per food per day:"
   f=0
