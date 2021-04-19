@@ -13,9 +13,18 @@ function analyze() {
   points_by_day=()
   points_by_food=()
   points_total=0
+  weights_by_day=()
+  unset weight_start
   d=0
   while read day; do
     days["${d}"]="${day}"
+    if test -e "${state}/weights/${day}"; then
+      weights_by_day["${d}"]="$(
+        distill "$(< "${state}/weights/${day}")"
+      )" || fail "Failed to read weight for day:" "${day}"
+      weight_start="${weight_start:-${weights_by_day["${d}"]}}"
+      weight_end="${weights_by_day["${d}"]}"
+    fi
     while read food; do
       read points
       if ! grep -qE '^[-0-9.]+$' <<< "${points}"; then
@@ -51,6 +60,8 @@ function analyze() {
   )" || fail "Failed to calculate average points."
   output "Number of days:" "${#days[@]}"
   output "Average points in total per day:" "${average}"
+  weight_diff="$(calculate "${weight_end} - ${weight_start}")"
+  output "Total change in weight:" "${weight_diff}"
   output
   output "Average points per food per day:"
   f=0
