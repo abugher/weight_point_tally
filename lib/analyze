@@ -16,7 +16,6 @@ function analyze() {
   d=0
   while read day; do
     days["${d}"]="${day}"
-    set -o pipefail
     while read food; do
       read points
       if ! grep -qE '^[-0-9.]+$' <<< "${points}"; then
@@ -45,7 +44,6 @@ function analyze() {
       ( analyze_day < "${state}/days/${day}" ) \
         || printf 'x\nx\nx\n'  # Cheap hack to induce parse failure.
     )
-    set +o pipefail
     d="$(( d + 1 ))"
   done < <(ls "${state}/days/" | sort)
   average="$(
