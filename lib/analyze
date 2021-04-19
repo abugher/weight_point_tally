@@ -13,7 +13,6 @@ function analyze() {
   points_by_day=()
   points_by_food=()
   points_total=0
-  weights_by_day=()
   d=0
   while read day; do
     days["${d}"]="${day}"
@@ -39,8 +38,8 @@ function analyze() {
       if test "${#foods[@]}" = "${f}"; then
         foods["${f}"]="${food}"
       fi
-      points_by_food["${d}"]="$(
-        calculate "${points_by_food["${d}"]:-0} + ${points}"
+      points_by_food["${f}"]="$(
+        calculate "${points_by_food["${f}"]:-0} + ${points}"
       )" || fail "Failed to calculate points by food."
     done < <(
       ( analyze_day < "${state}/days/${day}" ) \
@@ -49,11 +48,21 @@ function analyze() {
     set +o pipefail
     d="$(( d + 1 ))"
   done < <(ls "${state}/days/" | sort)
-  average_points="$(
+  average="$(
     calculate "${points_total} / ${#days[@]}"
   )" || fail "Failed to calculate average points."
   output "Number of days:" "${#days[@]}"
-  output "Average points per day:" "${average_points}"
+  output "Average points in total per day:" "${average}"
+  output
+  output "Average points per food per day:"
+  f=0
+  for food in "${foods[@]}"; do
+    average="$(calculate "${points_by_food["${f}"]} / ${#days[@]}")" \
+      || fail "Failed to calculate average points per day for food:" "${food}"
+    output "${food}:" "${average}"
+    f="$(( f + 1 ))"
+  done \
+    | sort -n -t : -k 3  # Assumes no food names contain a colon.  Assumes one colon in prefix.
 }
 
 
