@@ -15,4 +15,3 @@ fi
 state="${main_dir}/state"
 log="${state}/days/${date}"
 weigh_in="${state}/weights/${date}"
-foods="${state}/foods"

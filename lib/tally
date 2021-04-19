@@ -34,14 +34,12 @@ function tally() {
     read food
   do
     # Finish if no food is specified.
-    if [ "${food}" == "" ]
-    then
+    if test "${food}" == ""; then
       break
     fi
 
     # Check for new food.
-    if [ ! -f "${foods}"/"${food}" ]
-    then
+    if ! test -f "${state}/foods/${food}"; then
       if interactive; then
         output "Unknown food.  Please define."
         new_food "${food}"
@@ -51,7 +49,7 @@ function tally() {
     fi
 
     # Get points per serving.
-    points_per_serving=$(cat "${foods}"/"${food}") \
+    points_per_serving=$(cat "${state}/foods/${food}") \
       || fail "Failed to get points per serving."
     if interactive; then
       output "Points per serving:" "${points_per_serving}"
@@ -69,12 +67,12 @@ function tally() {
 
     # Do the math.
     points=$(
-      bc <<< "scale=3; ${points_per_serving} * ${servings}"
-    )
+      calculate "${points_per_serving} * ${servings}"
+    ) || fail "Failed to calculate points."
 
     tally=$(
-      bc <<< "scale=3; ${tally} + ${points}"
-    )
+      calculate "${tally} + ${points}"
+    ) || fail "Failed to calculate tally."
 
     if interactive; then
       # Output.

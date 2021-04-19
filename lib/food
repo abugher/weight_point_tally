@@ -11,14 +11,14 @@ function food() {
   prompt "Food:"
   read food
 
-  if test -f "${foods}/${food}"; then
-    points_per_serving="$(distill "$(< "${foods}/${food}")")" \
+  if test -f "${state}/foods/${food}"; then
+    points_per_serving="$(distill "$(< "${state}/foods/${food}")")" \
       || fail "Failed to get points per serving."
     output "Points per serving:" "${points_per_serving}"
     prompt "Overwrite?  [y,N]"
     read response
     if grep -qi 'y' <<< "${response}"; then
-      > "${foods}/${food}"
+      > "${state}/foods/${food}"
       new_food "${food}"
     fi
   else
@@ -31,9 +31,9 @@ function food() {
 }
 
 
-function new_food
-{
+function new_food() {
   food="${1}"
+
   # Get details from the user.
   prompt "Calories per serving:"
   read calories
@@ -42,28 +42,21 @@ function new_food
   prompt "Grams of dietary fiber per serving:"
   read fiber
 
-  # Check validity of input.
-  for var in calories fat fiber
-  do
+  # Filter and validate input.
+  for var in calories fat fiber; do
     eval $var=$(distill "${!var}")
-    if [ "${!var}" == "" ]
-    then
+    if test "" = "${!var}"; then
       fail "Invalid number for ${var}."
     fi
   done
 
-  # The heavy lifting.
   points=$(calculate_points_per_serving "${food}" "${calories}" "${fat}" "${fiber}")
-
   output "Points per serving:" "${points}"
-
-  # Save the points per serving for this food.
-  printf "%s\n" "${points}" > "${foods}/${food}"
+  printf "%s\n" "${points}" > "${state}/foods/${food}"
 }
 
 
-function calculate_points_per_serving
-{
+function calculate_points_per_serving() {
   # Parameters should be checked already.
   food="${1}"
   calories="${2}"
@@ -71,17 +64,13 @@ function calculate_points_per_serving
   fiber="${4}"
 
   # min(fiber, 4)
-  if [ "$(
-    bc <<< "a=${fiber}; b=4; r=-1; if (a>b) r=1; r"
-  )" == "1" ]
-  then fiber=4
-  fi
-  debug "fiber:  ${fiber}"
+  fiber="$(calculate "if (${fiber}>4) 4 else ${fiber}")" \
+    || fail "Failed to calculate fiber."
 
   # The forumula, except for the min(fiber, 4) part, which is done above.
   points=$(
-    bc <<< "scale=3; (${calories} / 50) + (${fat} / 12) - (${fiber} / 5)"
-  )
+    calculate "(${calories} / 50) + (${fat} / 12) - (${fiber} / 5)"
+  ) || fail "Failed to calculate points."
 
   printf '%s\n' ${points}
 }

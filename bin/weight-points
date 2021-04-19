@@ -13,7 +13,6 @@ main_dir="${real_path%/*}/.." \
 lib_dir="${main_dir}/lib"
 name="${0##*/}"
 
-
 libs=(
   "config"
   "io"
@@ -21,15 +20,14 @@ libs=(
   "food"
   "weigh_in"
   "sync_state"
+  "analyze"
+  "calculate"
 )
-
 for lib in "${libs[@]}"; do
   source "${lib_dir}/${lib}"
 done
 
-
 sync_state
-
 case "${name}" in
   tally)
     weigh_in
@@ -41,12 +39,11 @@ case "${name}" in
   food)
     food
     ;;
+  analyze)
+    analyze
+    ;;
   *)
     fail "I don't know how to be '${name}'."
     ;;
 esac
-
 sync_state
-
-
-
