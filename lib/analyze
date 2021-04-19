@@ -12,18 +12,17 @@ function analyze() {
   while read day; do
     d="$(( d + 1 ))"
     output "Day:" "${day}"
-    {
-      analyze_day < "${state}/days/${day}" \
-        || fail "Failed to analyze day:  '${day}'"
-    } > >(
-      while read food; do
+    set -o pipefail
+    analyze_day < "${state}/days/${day}" \
+      | while read food; do
         read servings
         read points
         output "Food:" "${food}"
         output "Servings:" "${servings}"
         output "Points:" "${points}"
-      done 
-    )
+      done \
+      || fail "Failed to analyze day:" "${day}"
+    set +o pipefail
     output
   done < <(ls "${state}/days/" | sort)
 }
@@ -87,7 +86,7 @@ function analyze_day() {
       cf="$(( cf + 1 ))"
     done
     # Add food to list if not found.
-    if test "${#compiled_foods}" = "${cf}"; then
+    if test "${#compiled_foods[@]}" = "${cf}"; then
       compiled_foods["${cf}"]="${foods["${f}"]}"
     fi
     compiled_serving_counts["${cf}"]=$(
@@ -106,5 +105,6 @@ function analyze_day() {
     printf "%s\n" "${compiled_food}"
     printf "%s\n" "${compiled_serving_counts["${cf}"]}"
     printf "%s\n" "${compiled_point_counts["${cf}"]}"
+    cf="$(( cf + 1 ))"
   done
 }

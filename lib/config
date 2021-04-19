@@ -6,6 +6,8 @@
 # Version 2, as published by Sam Hocevar. See WTFPL.txt or
 # http://www.wtfpl.net/ for more details.
 
+set +o pipefail
+
 script_name="${0##*/}"
 prefix="${script_name}:  "
 date="$(date "+%Y%m%d")"
