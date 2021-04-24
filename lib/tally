@@ -76,7 +76,7 @@ function tally() {
 
     if interactive; then
       # Output.
-      output "Points per serving:" "${points}"
+      output "Points per meal:" "${points}"
       output "Tally:" "${tally}"
       # Log.
       printf '%s\n' "${food}" >> "${log}"
