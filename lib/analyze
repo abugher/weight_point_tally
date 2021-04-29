@@ -53,7 +53,7 @@ function analyze() {
       )" || fail "Failed to calculate points by food."
     done < <(
       ( analyze_day < "${state}/days/${day}" ) \
-        || printf 'x\nx\nx\n'  # Cheap hack to induce parse failure.
+        || printf 'failure token\nfailure token\nfailure token\n'  # Cheap hack to induce parse failure.
     )
     d="$(( d + 1 ))"
   done < <(ls "${state}/days/" | sort)
