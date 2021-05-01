@@ -8,9 +8,10 @@
 
 script_name="${0##*/}"
 prefix="${script_name}:  "
-date="$(date "+%Y%m%d")"
 if test 6 -gt "$(date '+%H')"; then
-  date="$(( date - 1 ))"
+  date="$(date "+%Y%m%d" -d '-1day')"
+else
+  date="$(date "+%Y%m%d")"
 fi
 state="${main_dir}/state"
 log="${state}/days/${date}"
