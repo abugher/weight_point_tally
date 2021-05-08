@@ -12,6 +12,9 @@ Files:
     bin/weigh-in
       Record or re-record a weight for today.
 
+    bin/analyze
+      Provide statistics about historical data.
+
   lib/
     Libraries.  The guts of the scripts in bin/ .
 
