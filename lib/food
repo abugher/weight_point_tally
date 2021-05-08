@@ -12,6 +12,11 @@ function food() {
   read food
 
   if test -f "${state}/foods/${food}"; then
+    if serving_size="$(< "${state}/serving_sizes/${food}")"; then
+      output "Serving size:" "${serving_size}"
+    else
+      warn "Failed to get serving size for:" "${food}"
+    fi
     points_per_serving="$(distill "$(< "${state}/foods/${food}")")" \
       || fail "Failed to get points per serving."
     output "Points per serving:" "${points_per_serving}"
@@ -35,6 +40,8 @@ function new_food() {
   food="${1}"
 
   # Get details from the user.
+  prompt "Serving size:"
+  read serving_size
   prompt "Calories per serving:"
   read calories
   prompt "Grams of fat per serving:"
@@ -53,6 +60,7 @@ function new_food() {
   points=$(calculate_points_per_serving "${food}" "${calories}" "${fat}" "${fiber}")
   output "Points per serving:" "${points}"
   printf "%s\n" "${points}" > "${state}/foods/${food}"
+  printf "%s\n" "${serving_size}" > "${state}/serving_sizes/${food}"
 }
 
 
