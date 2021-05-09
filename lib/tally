@@ -22,8 +22,6 @@ function tally_then_tally() {
 # 
 # In noninteractive mode, read the tab and report the current tally.
 function tally() {
-  mkdir -p "${state}/"{,days,foods,weights,serving_sizes} \
-    || fail "Failed to create state directories."
   tally="${tally:-0}"
   if interactive; then
     output "Hit enter at the food prompt to finish."

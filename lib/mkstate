@@ -1,0 +1,7 @@
+#!/bin/bash
+
+
+function mkstate() {
+  mkdir -p "${state}/"{,days,foods,weights,serving_sizes} \
+    || fail "Failed to create state directories."
+}

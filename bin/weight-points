@@ -14,6 +14,7 @@ lib_dir="${main_dir}/lib"
 name="${0##*/}"
 
 libs=(
+  "mkstate"
   "config"
   "io"
   "tally"
@@ -30,6 +31,7 @@ done
 sync_state
 case "${name}" in
   tally)
+    mkstate
     weigh_in
     tally_then_tally
     ;;
