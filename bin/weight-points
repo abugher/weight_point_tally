@@ -28,6 +28,7 @@ for lib in "${libs[@]}"; do
   source "${lib_dir}/${lib}"
 done
 
+mkstate
 sync_state
 case "${name}" in
   tally)
