@@ -58,7 +58,6 @@ function new_food() {
   done
 
   points=$(calculate_points_per_serving "${food}" "${calories}" "${fat}" "${fiber}")
-  output "Points per serving:" "${points}"
   printf "%s\n" "${points}" > "${state}/foods/${food}"
   printf "%s\n" "${serving_size}" > "${state}/serving_sizes/${food}"
 }
