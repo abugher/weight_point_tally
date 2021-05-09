@@ -48,10 +48,12 @@ function tally() {
       fi
     fi
 
-    # Get points per serving.
+    serving_size=$(cat "${state}/serving_sizes/${food}" 2>/dev/null) \
+      || warn "Failed to get serving size for food:" "${food}"
     points_per_serving=$(cat "${state}/foods/${food}") \
       || fail "Failed to get points per serving."
     if interactive; then
+      output "Serving size:" "${serving_size}"
       output "Points per serving:" "${points_per_serving}"
       prompt "Servings:"
     fi
