@@ -1,0 +1,14 @@
+NAME
+
+  mkstate
+
+
+SYNOPSIS
+
+  mkstate
+
+
+DESCRIPTION
+
+  Make the state directory structure, if not already present or complete.  This
+  is where records on foods, weights, and daily consumption are stored.

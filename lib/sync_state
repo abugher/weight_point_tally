@@ -6,6 +6,9 @@
 # Version 2, as published by Sam Hocevar. See WTFPL.txt or
 # http://www.wtfpl.net/ for more details.
 
+include config
+include fail
+
 
 function sync_state() {
   if 

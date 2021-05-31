@@ -1,0 +1,12 @@
+NAME
+
+  analyze_day
+
+SYNOPSIS
+
+  analyze_day
+
+DESCRIPTION
+
+  Reads one daily record from stdin and compiles total points per food.  Used
+  by the analyze function.

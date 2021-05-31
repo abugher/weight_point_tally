@@ -1,0 +1,18 @@
+NAME
+
+  weigh_in_assertively
+
+
+SYNOPSIS
+
+  weigh_in_assertively
+
+
+DESCRIPTION
+
+  The guts of the weigh-in function.
+
+
+BUGS
+
+  See weigh-in.

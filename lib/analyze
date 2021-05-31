@@ -6,8 +6,21 @@
 # Version 2, as published by Sam Hocevar. See WTFPL.txt or
 # http://www.wtfpl.net/ for more details.
 
+include mkstate
+include sync_state
+include distill
+include calculate
+include analyze_day
+include output
+include fail
+include warn
+include warn
+include config
+
 
 function analyze() {
+  mkstate
+  sync_state
   foods=()
   days=()
   points_by_day=()
@@ -76,79 +89,6 @@ function analyze() {
     f="$(( f + 1 ))"
   done \
     | sort -n -t : -k 3  # Assumes no food names contain a colon.  Assumes one colon in prefix.
+  sync_state
 }
 
-
-function analyze_day() {
-  tally=0
-  foods=()
-  point_counts=()
-  while 
-    read food
-  do
-    # Finish if no food is specified.
-    if test "${food}" == ""; then
-      break
-    fi
-
-    # Check for new food.
-    if ! test -f "${state}/foods/${food}"; then
-      fail "Unknown food:" "'${food}'"
-    fi
-
-    # Get points per serving.
-    points_per_serving=$(cat "${state}/foods/${food}") \
-      || fail "Failed to get points per serving."
-
-    # Get count of servings.
-    read servings
-
-    # Check validity of input.
-    if ! grep -qE '^[0-9.]+$' <<< "${servings}"; then
-      fail "Invalid number of servings of ${food}:" "'${servings}'"
-    fi
-
-    # Do the math.
-    points=$(
-      calculate "${points_per_serving} * ${servings}"
-    ) || fail "Failed to calculate points."
-
-    tally=$(
-      calculate "${tally} + ${points}"
-    ) || fail "Failed to calculate tally."
-
-    foods+=( "${food}" )
-    point_counts+=( "${points}" )
-  done
-
-  # Compile results.
-  compiled_foods=()
-  compiled_point_counts=()
-  f=0
-  for food in "${foods[@]}"; do
-    cf=0
-    for compiled_food in "${compiled_foods[@]}"; do
-      if test "${compiled_food}" = "${food}"; then
-        break 1
-      fi
-      cf="$(( cf + 1 ))"
-    done
-    # Add food to list if not found.
-    if test "${#compiled_foods[@]}" = "${cf}"; then
-      compiled_foods["${cf}"]="${foods["${f}"]}"
-    fi
-    compiled_point_counts["${cf}"]=$(
-      calculate "${compiled_point_counts["${cf}"]:-0} + ${point_counts["${f}"]}"
-    ) || fail "Failed to compile point count for food:  '${food}'"
-
-    f="$(( f + 1 ))"
-  done
-
-  # Output results.
-  cf=0
-  for compiled_food in "${compiled_foods[@]}"; do
-    printf "%s\n" "${compiled_food}"
-    printf "%s\n" "${compiled_point_counts["${cf}"]}"
-    cf="$(( cf + 1 ))"
-  done
-}

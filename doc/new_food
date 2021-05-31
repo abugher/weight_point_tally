@@ -1,0 +1,14 @@
+NAME
+
+  new_food
+
+
+SYNOPSIS
+
+  new_food <food>
+
+
+DESCRIPTION
+
+  Prompt the user for nutritional information about food.  Record the
+  information for future use.

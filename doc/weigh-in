@@ -1,0 +1,22 @@
+NAME
+
+  weigh-in
+
+
+SYNOPSIS
+
+  weigh-in
+
+
+DESCRIPTION
+
+  High level user-available function.  Weigh in for the day.  If a weight is
+  already recorded, prompt the user to confirm overwriting that value.
+
+
+BUGS
+
+  This function's name is far too similar to another function name, weigh_in.
+
+  weigh_in_assertively (another dumb name) could probably be eliminated, and
+  its contents included directly in this function definition.

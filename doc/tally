@@ -1,0 +1,16 @@
+NAME
+
+  tally
+
+
+SYNOPSIS
+
+  tally
+
+
+DESCRIPTION
+
+  High level user-available function.  This is expected to be the main program
+  used daily in this suite.  It prompts the user to weigh in if not already
+  done today, catches up to the current tally, and the interactively prompts
+  for further food consumption.

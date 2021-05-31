@@ -1,0 +1,92 @@
+#!/bin/bash
+
+# This program is free software. It comes without any warranty, to the
+# extent permitted by applicable law. You can redistribute it and/or modify
+# it under the terms of the Do What The Fuck You Want To Public License,
+# Version 2, as published by Sam Hocevar. See WTFPL.txt or
+# http://www.wtfpl.net/ for more details.
+
+include prompt
+include interactive
+include new_food
+include distill
+include calculate
+include output
+include config
+include fail
+include warn
+
+
+# In interactive mode, prompt the user and write to the tab.
+# 
+# In noninteractive mode, read the tab and report the current tally.
+function real_tally() {
+  tally="${tally:-0}"
+  if interactive; then
+    output "Hit enter at the food prompt to finish."
+    output "Tally:" "${tally}"
+  fi
+  while 
+    if interactive; then 
+      prompt "Food:"
+    fi
+    read food
+  do
+    # Finish if no food is specified.
+    if test "${food}" == ""; then
+      break
+    fi
+
+    # Check for new food.
+    if ! test -f "${state}/foods/${food}"; then
+      if interactive; then
+        output "Unknown food.  Please define."
+        new_food "${food}"
+      else
+        fail "Unknown food:  ${food}"
+      fi
+    fi
+
+    serving_size=$(cat "${state}/serving_sizes/${food}" 2>/dev/null) \
+      || warn "Failed to get serving size for food:" "${food}"
+    points_per_serving=$(cat "${state}/foods/${food}") \
+      || fail "Failed to get points per serving."
+    if interactive; then
+      output "Serving size:" "${serving_size}"
+      output "Points per serving:" "${points_per_serving}"
+      prompt "Servings:"
+    fi
+    read servings
+
+    # Check validity of input.
+    original_servings="${servings}"
+    eval servings=$(distill "${servings}")
+    if [ "${servings}" == "" ]
+    then
+      fail "Invalid number of servings of ${food}.  (${original_servings})"
+    fi
+
+    # Do the math.
+    points=$(
+      calculate "${points_per_serving} * ${servings}"
+    ) || fail "Failed to calculate points."
+
+    tally=$(
+      calculate "${tally} + ${points}"
+    ) || fail "Failed to calculate tally."
+
+    if interactive; then
+      # Output.
+      output "Points per meal:" "${points}"
+      output "Tally:" "${tally}"
+      # Log.
+      printf '%s\n' "${food}" >> "${log}"
+      printf '%s\n' "${servings}" >> "${log}"
+    fi
+
+  done
+  
+  if ! interactive; then
+    printf "%s\n" "${tally}"
+  fi
+}

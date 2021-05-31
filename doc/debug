@@ -1,0 +1,19 @@
+NAME
+
+  debug
+  
+
+SYNOPSIS
+
+  debug <text> [moretext]
+  
+
+DESCRIPTION
+
+  If debugging is enabled, present text, and optionally moretext, in the
+  two-column center-aligned format preferred for use in this suite.
+
+
+EXAMPLES
+
+  debug "Value of foo:"  "${foo}"

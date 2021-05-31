@@ -1,0 +1,24 @@
+NAME
+
+  analyze
+
+
+SYNOPSIS
+
+  analyze
+
+
+DESCRIPTION
+
+  Analyze progress over multiple days.  Compile totals for each food for each
+  day, totals for each food overall, average points per day per food,
+  percentage of overall points per food, total weight difference from start to
+  end, and average weight difference per day.
+
+
+BUGS
+
+  Currently this function only handles the entire span of time with records.
+  It might be good to provide targeting for smaller time ranges, and for
+  granularity more course than a day.  For example, a week-by-week breakdown of
+  average points per day and average weight change per day could be helpful.

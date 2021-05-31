@@ -1,0 +1,18 @@
+NAME
+
+  tally_then_tally
+
+
+SYNOPSIS
+
+  tally_then_tally
+
+
+DESCRIPTION
+
+  First catch up to the current tally, then start interactively tallying foods.
+
+
+BUGS
+
+  This function has a dumb name.

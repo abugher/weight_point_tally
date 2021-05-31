@@ -6,23 +6,12 @@
 # Version 2, as published by Sam Hocevar. See WTFPL.txt or
 # http://www.wtfpl.net/ for more details.
 
-
-# Provide the option to overwrite, then weigh in.
-function weigh_in_assertively() {
-  if test -f "${weigh_in}"; then
-    weight="$(distill "$(< "${weigh_in}")")" \
-      || fail "Failed to read weight."
-    output "Weight:" "${weight}"
-    prompt "Overwrite?  [y,N]"
-    read response
-    if ! grep -qi 'y' <<< "${response}"; then
-      exit 0
-    fi
-    rm "${weigh_in}" \
-      || fail "Failed to remove old weight file."
-  fi
-  weigh_in
-}
+include distill
+include prompt
+include output
+include config
+include fail
+include warn
 
 
 function weigh_in() {

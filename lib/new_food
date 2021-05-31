@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# This program is free software. It comes without any warranty, to the
+# extent permitted by applicable law. You can redistribute it and/or modify
+# it under the terms of the Do What The Fuck You Want To Public License,
+# Version 2, as published by Sam Hocevar. See WTFPL.txt or
+# http://www.wtfpl.net/ for more details.
+
+include prompt
+include calculate_points_per_serving
+include config
+include fail
+
+
+function new_food() {
+  food="${1}"
+
+  # Get details from the user.
+  prompt "Serving size:"
+  read serving_size
+  prompt "Calories per serving:"
+  read calories
+  prompt "Grams of fat per serving:"
+  read fat
+  prompt "Grams of dietary fiber per serving:"
+  read fiber
+
+  # Filter and validate input.
+  for var in calories fat fiber; do
+    eval $var=$(distill "${!var}")
+    if test "" = "${!var}"; then
+      fail "Invalid number for ${var}."
+    fi
+  done
+
+  points=$(calculate_points_per_serving "${food}" "${calories}" "${fat}" "${fiber}")
+  printf "%s\n" "${points}" > "${state}/foods/${food}"
+  printf "%s\n" "${serving_size}" > "${state}/serving_sizes/${food}"
+}

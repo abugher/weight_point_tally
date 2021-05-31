@@ -1,0 +1,19 @@
+NAME
+
+  error
+  
+
+SYNOPSIS
+
+  error <text> [moretext]
+  
+
+DESCRIPTION
+
+  Present an error message in the two-column center-aligned format preferred
+  for use in this suite.
+
+
+EXAMPLE
+
+  error "Invalid value for foo:" "${foo}"

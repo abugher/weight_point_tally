@@ -1,0 +1,23 @@
+NAME
+
+  real_tally
+
+
+SYNOPSIS
+
+  real_tally
+
+
+DESCRIPTION
+
+  This was formerly named tally, but tally is now a high level function
+  available to the user.  In interactive mode, this function prompts the user
+  for daily data, including weight and foods consumed, generating a definition
+  for any unknown foods, and outputting the full point tally for the day at the
+  end.  In noninteractive mode, it simply reads a list of daily consumed foods
+  and outputs the total number of points for the day.
+
+
+BUGS
+
+  This function has a dumb name.

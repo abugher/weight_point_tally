@@ -1,0 +1,23 @@
+NAME
+
+  calculate
+
+
+SYNOPSIS
+
+  calculate <expression>
+
+
+DESCRIPTION
+
+  expression is expected to be a single string, and will be passed to bc.  The
+  calculate function exists to handle and correct bc's weird behavior,
+  specifically how it returns a successful exit code even if it actually
+  encounters a fatal error.
+
+
+BUGS
+
+  This function looks like garbage.  It works perfectly well and is fairly
+  compact, but it is very confusing looking.  On the other hand, its job is
+  legitimately confusing, so that look is accurate.

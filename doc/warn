@@ -1,0 +1,13 @@
+NAME
+
+  warn
+
+
+SYNOPSIS
+
+  warn <text> [moretext]
+
+
+DESCRIPTION
+
+  Present a warning in the two-column center-aligned format preferred for use in this suite.

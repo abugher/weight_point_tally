@@ -1,0 +1,13 @@
+NAME
+
+  interactive
+
+
+SYNOPSIS
+
+  interactive
+
+
+DESCRIPTION
+
+  Return true if this program is in interactive mode, or false otherwise.

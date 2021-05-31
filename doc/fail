@@ -1,0 +1,19 @@
+NAME
+
+  fail
+  
+
+SYNOPSIS
+
+  fail <text> [moretext]
+  
+
+DESCRIPTION
+
+  Exit with an error code, after presenting an error message in the two-column
+  center-aligned format preferred for use in this suite.
+
+
+EXAMPLE
+
+  fail "Invalid value for foo:" "${foo}"

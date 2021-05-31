@@ -6,12 +6,11 @@
 # Version 2, as published by Sam Hocevar. See WTFPL.txt or
 # http://www.wtfpl.net/ for more details.
 
-prefix="${name}:  "
-if test 6 -gt "$(date '+%H')"; then
-  date="$(date "+%Y%m%d" -d '-1day')"
-else
-  date="$(date "+%Y%m%d")"
-fi
-state="${local_lib}/../state"
-log="${state}/days/${date}"
-weigh_in="${state}/weights/${date}"
+
+function interactive() {
+  if test 'set' = "${NONINTERACTIVE:+set}"; then
+    false
+  else
+    true
+  fi
+}

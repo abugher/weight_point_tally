@@ -1,0 +1,14 @@
+NAME
+
+  food
+
+
+SYNOPSIS
+
+  food
+  
+
+DESCRIPTION
+
+  Prompt the user for the name of a food, and for nutrition information if the
+  food is not defined.

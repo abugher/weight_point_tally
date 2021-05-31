@@ -1,0 +1,18 @@
+NAME
+
+  calculate_points_per_serving
+  
+
+SYNOPSIS
+
+  calculate_points_per_serving <food> <calories> <fat> <fiber>
+  
+
+DESCRIPTION
+
+  calories, fat, and fiber are expected to be numbers.  This function applies a formula to calculate points from those numbers, and emits the number of points on stdout.
+
+
+BUGS
+
+  The first argument, the name of a food, seems to go unused.

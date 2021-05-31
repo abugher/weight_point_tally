@@ -1,0 +1,23 @@
+NAME
+
+  distill
+  
+
+SYNOPSIS
+
+  distill
+  
+
+DESCRIPTION
+
+  Filter out any non-number characters from stdin, and present the filtered
+  output on stdout.
+
+
+BUGS
+
+  It might be better to just not do this, and throw an error if non-number text
+  is presented where a number is expected.
+
+  A string with multiple dot characters can be generated, which is not a valid
+  number.

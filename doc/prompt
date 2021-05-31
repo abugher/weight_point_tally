@@ -1,0 +1,15 @@
+NAME
+
+  prompt
+
+
+SYNOPSIS
+
+  prompt <prompt>
+
+
+DESCRIPTION
+
+  Prompt the user for input, using the two-column center-aligned format
+  preferred for use in this suite.  prompt is presented in the first column,
+  leaving the second column available for the user to fill in a response.

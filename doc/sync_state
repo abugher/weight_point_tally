@@ -1,0 +1,27 @@
+NAME
+
+  sync_state
+
+
+SYNOPSIS
+
+  sync_state
+
+
+DESCRIPTION
+
+  Sync the current state (food definitions, weight and consumption records)
+  both up and down, using g.  g is part of the git-automation framework, and
+  assumed to be present.
+
+  This is called at the beginning and end of every high level function.
+
+
+BUGS
+
+  g is assumed to be present.  git-automation should be a subproject and this
+  function should explicitly reference g from that location.
+
+  Syncing tends to break if I left tally running somewhere else.  This would
+  happen less if instead of one long file, each day record consisted of a
+  directory containing timestamp-named files with one food entry each.

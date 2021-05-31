@@ -1,0 +1,14 @@
+NAME
+
+  output
+
+
+SYNOPSIS
+
+  output
+
+
+DESCRIPTION
+
+  Override the output function provided by executor, in order to present output
+  in a two-column center-aligned format specialized for this suite.

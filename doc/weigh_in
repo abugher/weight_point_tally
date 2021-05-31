@@ -1,0 +1,13 @@
+NAME
+
+  weigh_in
+
+
+SYNOPSIS
+
+  weigh_in
+
+
+DESCRIPTION
+
+  Prompt the user to weigh in if a valid weight is not yet recorded for today.

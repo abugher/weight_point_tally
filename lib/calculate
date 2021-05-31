@@ -6,6 +6,10 @@
 # Version 2, as published by Sam Hocevar. See WTFPL.txt or
 # http://www.wtfpl.net/ for more details.
 
+include output
+include fail
+include error
+
 
 function calculate() {
   # bc always returns zero, but outputs to stderr upon failure.  I want to fail
